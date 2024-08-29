@@ -13,6 +13,8 @@ const AirtimeToCashRouter = require('./routes/cheetahPay/cheetahpayRoutes');
 
 const app = express();
 
+app.set('trust proxy', 1);
+
 app.use(cors())
 
 app.use(cookieParser());
@@ -25,6 +27,7 @@ const limiter = rateLimit({
   max: 100,
   windowMs: 60 * 60 * 1000,
   message: 'Too many requests from this IP, please try again in an hour!',
+  keyGenerator: (req) => req.ip,
 });
 app.use('/api', limiter);
 
